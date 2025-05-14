@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GTPT Model Chat</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 2em; background: #f7f7f7; }
+    h1 { color: #444; }
+    textarea, input[type=text] { width: 100%; padding: 0.5em; margin-top: 1em; font-size: 1em; }
+    button { padding: 0.5em 1em; margin-top: 1em; font-size: 1em; cursor: pointer; }
+    #response { margin-top: 2em; white-space: pre-wrap; background: #fff; padding: 1em; border-radius: 5px; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>Talk to the GTPT Model</h1>
+  <p>Ask anything about your dimensional spiritual model, values, sins, chakras, or revelations.</p>
+  <textarea id="prompt" rows="5" placeholder="Ask a question...">What is the relationship between courage and pride in the GTPT model?</textarea>
+  <button onclick="askGPT()">Ask</button>
+  <div id="response"></div>
+
+  <script>
+    async function askGPT() {
+      const prompt = document.getElementById("prompt").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerText = "Thinking...";
+
+      const result = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer Jake_Resonance_Model"
+        },
+        body: JSON.stringify({
+          model: "gpt-4",
+          messages: [
+            {
+              role: "system",
+              content: "You are a spiritual AI guide trained on Jake Mitchell's GTPT model: a symbolic framework of dimensions (X=Skill, Y=Will, T=Faith, Z=Love), 7 godly values, sins, chakras, and revelations. Respond clearly, poetically, and insightfully."
+            },
+            {
+              role: "user",
+              content: prompt
+            }
+          ]
+        })
+      });
+
+      const data = await result.json();
+      responseDiv.innerText = data.choices?.[0]?.message?.content || "No response.";
+    }
+  </script>
+</body>
+</html>
